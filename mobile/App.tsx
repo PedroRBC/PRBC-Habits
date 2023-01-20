@@ -3,8 +3,9 @@ import { useFonts, Inter_400Regular, Inter_600SemiBold, Inter_700Bold, Inter_800
 
 
 import { Loading } from './src/components/Loading';
-import { Home } from './src/screens/Home';
+import { Routes } from './src/routes';
 
+import './src/lib/dayjs';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Inter_400Regular, Inter_600SemiBold, Inter_700Bold, Inter_800ExtraBold })
@@ -15,7 +16,7 @@ export default function App() {
 
   return (
     <>
-      <Home />
+      <Routes />
       <StatusBar barStyle={"light-content"} backgroundColor="transparent" translucent/>
     </>
   );
