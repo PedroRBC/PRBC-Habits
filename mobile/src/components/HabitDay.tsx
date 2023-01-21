@@ -28,7 +28,7 @@ export function HabitDay({ amount = 0, completed = 0, date, ...rest }: Props) {
                 ["bg-violet-700 border-violet-500"] : HabitsProgress >= 40 && HabitsProgress < 60,
                 ["bg-violet-600 border-violet-500"] : HabitsProgress >= 60 && HabitsProgress < 80,
                 ["bg-violet-500 border-violet-400"]: HabitsProgress >= 80,
-                ["border-white border-4"]: isCurrentDay
+                ["border-white border-2"]: isCurrentDay
             })}
             style={{ width: DAY_SIZE, height: DAY_SIZE }}
             activeOpacity={0.7}
