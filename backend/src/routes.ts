@@ -2,7 +2,10 @@ import { FastifyInstance } from "fastify"
 import { prisma } from "./lib/prisma"
 import { z } from 'zod'
 import dayjs from 'dayjs'
-
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+dayjs.extend(utc)
+dayjs.extend(timezone)
 export async function appRoutes(app: FastifyInstance) {
 
     app.post('/habits', async (req) => {
@@ -12,8 +15,8 @@ export async function appRoutes(app: FastifyInstance) {
         })
 
         const { title, weekDays } = createHabitBody.parse(req.body)
-
-        const today = dayjs().startOf('day').toDate()
+        
+        const today = dayjs().tz('America/Sao_Paulo').startOf('day').toDate()
 
         await prisma.habit.create({
             data: {
@@ -29,7 +32,6 @@ export async function appRoutes(app: FastifyInstance) {
             }
         })
 })
-
     
     app.get('/day', async (req) => {
         const getDayParams = z.object({
@@ -74,7 +76,6 @@ export async function appRoutes(app: FastifyInstance) {
         }
     })
 
-
     app.patch('/habits/:id/toggle', async (req) => {
         const toggleHabitParams = z.object({
             id: z.string().uuid(),
@@ -82,7 +83,7 @@ export async function appRoutes(app: FastifyInstance) {
 
         const { id } = toggleHabitParams.parse(req.params)
 
-        const today = dayjs().startOf('day').toDate()
+        const today = dayjs().tz('America/Sao_Paulo').startOf('day').toDate()
 
         let day = await prisma.day.findUnique({
             where: {
@@ -125,7 +126,6 @@ export async function appRoutes(app: FastifyInstance) {
         }
     })
 
-
     app.get('/summary', async (req) => {
         
         const summary = await prisma.$queryRaw`
@@ -153,6 +153,4 @@ export async function appRoutes(app: FastifyInstance) {
 
         return summary
     })
-
-
 }
